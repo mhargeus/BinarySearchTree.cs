@@ -55,9 +55,9 @@ public class BinarySearchTree<T> : BST_G<T> where T : IComparable<T>
 			}
 			else
 			{
-				if (currentValue.RightChild == null) { currentValue.RightChild = newNode; counter++;  //om nod är tom, skapa ny
-				else { currentValue = newNode.RightChild; counter++; return;};// om nod ej är tom, gå ett steg till
-				}
+				if (currentValue.RightChild == null) { currentValue.RightChild = newNode; counter++; }//om nod är tom, skapa ny
+				else { currentValue = newNode.RightChild; counter++; return;}; // om nod ej är tom, gå ett steg till
+			}
 		}
 	}
 	public int Count()
