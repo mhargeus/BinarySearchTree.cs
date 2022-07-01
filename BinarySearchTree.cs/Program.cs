@@ -2,13 +2,9 @@
 
 //Mitt träd är inte speciellt effektivt eftersom det saknar balansen som krävs. Beroende på vilket värde som implementeras först kan "Root" bli ett
 //	extremfall som inte är mer effektiv än en vanlig lista, då hela vägen till sista noden blir en vandring åt höger t.ex. Man tappar alltså poängen med Divide and Conquer sökning.
-//	Worst case är en lista 
-//
-//
-//
-//
-//
-//
+//	Worst case är en lista med O(n), där vi behöver vandra längs hela ledden på en sida för att nå det sista resultatet. Man tappar poängen med DaQ.
+// En förbättring hade varit att implementera en metod som balanserar listan så att diffen blir max +1. Då hade listan blivit snababre om man tittar på tidskomplexiteten, Man utnyttjar då DaQ och får O(log n).
+
 
 
 BinarySearchTree<int> testList = new BinarySearchTree<int>();
