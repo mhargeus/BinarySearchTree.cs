@@ -1,13 +1,14 @@
 ﻿// See https://aka.ms/new-console-template for more information
 
-//Mitt träd är inte speciellt effektivt eftersom det saknar balansen som krävs. Beroende på vilket värde som implementeras först kan "Root" bli ett
+//Mitt träd är inte speciellt effektivt eftersom det saknar balansen som det bör ha. Beroende på vilket värde som implementeras först kan "Root" bli ett
 //	extremfall som inte är mer effektiv än en vanlig lista, då hela vägen till sista noden blir en vandring åt höger t.ex. Man tappar alltså poängen med Divide and Conquer sökning.
 //	Worst case är en lista med O(n), där vi behöver vandra längs hela ledden på en sida för att nå det sista resultatet. Man tappar poängen med DaQ.
 // En förbättring hade varit att implementera en metod som balanserar listan så att diffen blir max +1. Då hade listan blivit snababre om man tittar på tidskomplexiteten, Man utnyttjar då DaQ och får O(log n).
 
 
+// Exempel på ett dåligt träd som startar på 1 och vandrar till höger:
 
-BinarySearchTree<int> testList = new BinarySearchTree<int>();
+BinarySearchTree<int> testList = new BinarySearchTree<int>(); // test-träd för att använda metoder.
 testList.Insert(1);
 testList.Insert(2);
 testList.Insert(3);
@@ -32,6 +33,21 @@ Console.WriteLine(testList.Exists(0));
 testList.Print();
 
 
+BinarySearchTree<int> testTree2 = new BinarySearchTree<int>(); // Test-träd med snyggare uppdelning
+
+testTree2.Insert(5);
+testTree2.Insert(6);
+testTree2.Insert(4);
+testTree2.Insert(7);
+testTree2.Insert(3);
+testTree2.Insert(8);
+testTree2.Insert(2);
+testTree2.Insert(9);
+testTree2.Insert(1);
+
+testTree2.Print();
+
+
 public interface BST_G<T> where T : IComparable<T>
 {
 	// Remember: the most efficient tree is a balanced tree. A balanced tree has the same (or as close as possible to) amount of nodes on the left as on the right.
@@ -49,13 +65,11 @@ public interface BST_G<T> where T : IComparable<T>
 public class BinarySearchTree<T> : BST_G<T> where T : IComparable<T>
 {
 	private Node<T>? Root = null;
-
-	int counter = 0;
+	int counter = 0; //Counter för att hålla reda på antalet, returneras i count-metoden.
 
 	public void Insert(T value)
 	{
 		var newNode = new Node<T>(value);
-
 
 		if (Exists(value)) return; //Dubblettkontroll
 		if (Root == null) { Root = newNode; counter++; return; } //Skapar Root om träd ej påbörjat
@@ -83,18 +97,19 @@ public class BinarySearchTree<T> : BST_G<T> where T : IComparable<T>
 
     public bool Exists(T value)
     {
-		var node = Root;
-		if (Root == null){return false;}
-        while (node != null)
+		var nodeExists = Root;
+		if (Root == null){return false;} //Om Rooten är null finns inget värde alls i trädet, returnera false.
+        while (nodeExists != null)
         {
-			if (node.Data.CompareTo(value) == 0) return true; //Returnerar om trädets root är match
-			else if (node.Data.CompareTo(value) > 0) node = node.LeftChild; // returnerar match på trädets vänstra sida
-			else node = node.RightChild; //returnerar om match på trädets högra sida.
+			if (nodeExists.Data.CompareTo(value) == 0) return true; //Returnerar om trädets root är match
+			else if (nodeExists.Data.CompareTo(value) > 0) nodeExists = nodeExists.LeftChild; // returnerar match på trädets vänstra sida
+			else nodeExists = nodeExists.RightChild; //returnerar om match på trädets högra sida.
         }
 		return false;
-
     }
 
+
+	// Davids print-metod.
 	public void Print()
 	{
 		Queue<Node<T>?> nodes = new Queue<Node<T>?>();
@@ -155,15 +170,6 @@ public class Node<T>
 		LeftChild = null;
 		RightChild = null;
 		Data = value;
-	}
-
-	// A balanced tree should be as close as possible to equal amount of nodes on both sides
-	// 0 is best, but +1 and -1 is ok.
-	public int GetBalance()
-	{
-		int left = (LeftChild == null) ? 0 : LeftChild.GetBalance() + 1;
-		int right = (RightChild == null) ? 0 : RightChild.GetBalance() + 1;
-		return right - left;
 	}
 }
 
