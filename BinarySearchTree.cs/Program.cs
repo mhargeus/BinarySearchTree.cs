@@ -39,7 +39,7 @@ public class BinarySearchTree<T> : BST_G<T> where T : IComparable<T>
 
 	public void Insert(T value)
 	{
-		var currentValue = Root; 
+		var currentNode = Root; 
 		var newNode = new Node<T>(value);
 
 
@@ -48,21 +48,21 @@ public class BinarySearchTree<T> : BST_G<T> where T : IComparable<T>
 
 		while (true)
 		{
-			if (currentValue.Data.CompareTo(value) > 0)  //Jämför med root, om den är lägre gå vänster, högre gå höger.
+			if (currentNode.Data.CompareTo(value) > 0)  //Jämför med root, om den är lägre gå vänster, högre gå höger.
 			{
-				if (currentValue.LeftChild == null) { currentValue.LeftChild = newNode; counter++; } //om nod är tom, skapa ny
-				else { currentValue = newNode.LeftChild; counter++; return;}; // om nod ej är tom, gå ett steg till
+				if (currentNode.LeftChild == null) { currentNode.LeftChild = newNode; counter++; } //om nod är tom, skapa ny
+				else { currentNode = newNode.LeftChild; counter++; return;}; // om nod ej är tom, gå ett steg till
 			}
 			else
 			{
-				if (currentValue.RightChild == null) { currentValue.RightChild = newNode; counter++; }//om nod är tom, skapa ny
-				else { currentValue = newNode.RightChild; counter++; return;}; // om nod ej är tom, gå ett steg till
+				if (currentNode.RightChild == null) { currentNode.RightChild = newNode; counter++; }//om nod är tom, skapa ny
+				else { currentNode = newNode.RightChild; counter++; return;}; // om nod ej är tom, gå ett steg till
 			}
 		}
 	}
 	public int Count()
     {
-		return counter;
+		return counter;  //returnerar counter som registrerat varje gång något lagts till i trädet.
     }
 
     public bool Exists(T value)
@@ -71,9 +71,9 @@ public class BinarySearchTree<T> : BST_G<T> where T : IComparable<T>
 		if (Root == null){return false;}
         while (node != null)
         {
-			if (node.Data.CompareTo(value) == 0) return true;
-			else if (node.Data.CompareTo(value) > 0) node = node.LeftChild;
-			else node = node.RightChild;
+			if (node.Data.CompareTo(value) == 0) return true; //Returnerar om trädets root är match
+			else if (node.Data.CompareTo(value) > 0) node = node.LeftChild; // returnerar match på trädets vänstra sida
+			else node = node.RightChild; //returnerar om match på trädets högra sida.
         }
 		return false;
 
